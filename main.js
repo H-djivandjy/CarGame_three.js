@@ -10,10 +10,12 @@ const randomRangeNum = (min, max) => Math.random() * (max - min) + min;
 const pointsUI = document.querySelector('#points');
 const gameOverText = document.querySelector('#gameOver');
 const restartBtnContainer = document.querySelector('#restartBtnContainer');
+const countdownElement = document.getElementById('countdown'); // Countdown element
 
-// Initialize points and game over state
+// Initialize points and game over state, and countdown
 let points = 0;
 let gameOver = false;
+let countdown = 3; // Initial countdown value
 
 // Set up the Three.js scene
 const scene = new THREE.Scene();
@@ -46,6 +48,25 @@ const moveObstacles = (obstacles, speed, maxX, minX, maxZ, minZ) => {
     obstacle.mesh.quaternion.copy(obstacle.body.quaternion);
   });
 };
+
+
+//* Create a function to update and display the countdown
+function updateCountdown() {
+  countdownElement.textContent = countdown.toString();
+  if (countdown === 0) {
+    // Start the game when countdown reaches 0
+    countdownElement.style.display = 'none';
+    startGame();
+  } else {
+    setTimeout(() => {
+      countdown--;
+      updateCountdown();
+    }, 1000);
+  }
+}
+// Call the function to initiate the countdown
+updateCountdown();
+
 
 // Create the ground (platform)
 const groundBody = new CANNON.Body({
