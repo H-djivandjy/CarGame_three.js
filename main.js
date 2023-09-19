@@ -73,7 +73,7 @@ world.addBody(playerBody);
 //!______________
 // Create the car body with adjusted geometry
 const carBodyGeometry = new THREE.BoxGeometry(0.5, 0.2, 1); // Swap dimensions to make it face the right direction
-const carBodyMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const carBodyMaterial = new THREE.MeshBasicMaterial({ color: 0x008000 });
 const carBody = new THREE.Mesh(carBodyGeometry, carBodyMaterial);
 
 // Create the car roof
