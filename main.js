@@ -374,7 +374,19 @@ function restartGame() {
   }
 }
 
-// Animation loop
+//* ___________ Removing the Image after starting the game
+// Get a reference to the instruction image element
+const instructionImage = document.getElementById('instructionImage');
+
+// Event listener for starting the game and hiding the image
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowUp' || e.key === ' ') {
+    // Hide the image when the game starts
+    instructionImage.style.display = 'none';
+  }
+});
+
+//! _________________________| Animation loop |_________________________
 function animate() {
   requestAnimationFrame(animate);
 
@@ -407,7 +419,8 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Event listener for keyboard controls (movement)
+
+//* ---------------> Keyboard Controls (movement)
 window.addEventListener('keydown', (e) => {
   if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') {
     playerBody.position.x += 0.2;
