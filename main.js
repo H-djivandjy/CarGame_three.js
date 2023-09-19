@@ -158,18 +158,20 @@ for (let i = 0; i < 10; i++) {
   const powerupGeometry = new THREE.Group();
 
   // Sphere for the powerup core (inner sphere)
-  const coreGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+  const coreGeometry = new THREE.SphereGeometry(0.4, 16, 16);
   const coreMaterial = new THREE.MeshBasicMaterial({
     color: 0xFFFF00, // Yellow color for the core
+    transparent: true,
+    opacity: 0.8, // Increase opacity for better visibility
   });
   const coreSphere = new THREE.Mesh(coreGeometry, coreMaterial);
 
   // Sphere for the magnetic field (outer sphere)
-  const fieldGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+  const fieldGeometry = new THREE.SphereGeometry(1.0, 32, 32);
   const fieldMaterial = new THREE.MeshBasicMaterial({
     color: 0x00BFFF, // Light blue color for the field
     transparent: true,
-    opacity: 0.6, // Adjust opacity to your liking
+    opacity: 0.2, // Decrease opacity to create a light membrane effect
   });
   const fieldSphere = new THREE.Mesh(fieldGeometry, fieldMaterial);
 
@@ -179,12 +181,12 @@ for (let i = 0; i < 10; i++) {
   powerupGeometry.add(coreSphere);
   powerupGeometry.add(fieldSphere);
 
-  powerupGeometry.scale.set(0.1, 0.1, 0.1);
+  powerupGeometry.scale.set(0.2, 0.2, 0.2);
   powerupGeometry.position.set(posX, 0, posZ);
   scene.add(powerupGeometry);
 
   const powerupBody = new CANNON.Body({
-    shape: new CANNON.Sphere(0.2),
+    shape: new CANNON.Sphere(0.4),
   });
   powerupBody.position.set(posX, 0, posZ);
   world.addBody(powerupBody);
