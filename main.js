@@ -56,7 +56,8 @@ world.addBody(groundBody);
 
 const ground = new THREE.Mesh(
   new THREE.BoxGeometry(10, 1, 30),
-  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+  // new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+  new THREE.MeshBasicMaterial({ color: 0x888888 })
 );
 ground.position.y = -1;
 scene.add(ground);
