@@ -185,7 +185,7 @@ function animatePowerups() {
   });
   requestAnimationFrame(animatePowerups);
 }
-animatePowerups();
+// animatePowerups();
 
 
 //!______________________________________________________________ Enemy
