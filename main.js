@@ -175,7 +175,7 @@ for (let i = 0; i < 10; i++) {
 //   allEnemies.push(enemyObject);
 // }
 
-// Create enemy characters with mine-like geometry
+// Create enemy characters with larger mine-like geometry
 const allEnemies = [];
 
 for (let i = 0; i < 3; i++) {
@@ -186,27 +186,27 @@ for (let i = 0; i < 3; i++) {
   const mineGeometry = new THREE.Group();
 
   // Sphere for the top part (round)
-  const topSphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
-  const topSphereMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 }); // Grey color
+  const topSphereGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+  const topSphereMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 }); // Red color
   const topSphere = new THREE.Mesh(topSphereGeometry, topSphereMaterial);
 
   // Cylinder for the bottom part (cylindrical)
-  const bottomCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.7, 0.4, 16);
+  const bottomCylinderGeometry = new THREE.CylinderGeometry(0.8, 1, 0.4, 16);
   const bottomCylinderMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Black color
   const bottomCylinder = new THREE.Mesh(bottomCylinderGeometry, bottomCylinderMaterial);
 
   // Position and add parts to the mine
-  topSphere.position.set(0, 0.2, 0);
-  bottomCylinder.position.set(0, -0.1, 0);
+  topSphere.position.set(0, 0.4, 0);
+  bottomCylinder.position.set(0, 0, 0);
   mineGeometry.add(topSphere);
   mineGeometry.add(bottomCylinder);
 
-  mineGeometry.scale.set(0.1, 0.1, 0.1);
+  mineGeometry.scale.set(0.2, 0.2, 0.2);
   mineGeometry.position.set(posX, 0, posZ);
   scene.add(mineGeometry);
 
   const enemyBody = new CANNON.Body({
-    shape: new CANNON.Sphere(0.5), // Approximate shape with a sphere for collisions
+    shape: new CANNON.Sphere(0.8), // Approximate shape with a sphere for collisions
   });
   enemyBody.position.set(posX, 0, posZ);
   world.addBody(enemyBody);
@@ -217,6 +217,7 @@ for (let i = 0; i < 3; i++) {
   };
   allEnemies.push(enemyObject);
 }
+
 
 //!___________________________________________________________________
 
