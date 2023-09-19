@@ -147,18 +147,14 @@ scene.add(player);
 //   multiplePowerup.push(powerupObject);
 // }
 
-// Create powerup objects with a magnetic field appearance and a pulsing effect
+// Create powerup objects with magnetic field appearance
 const multiplePowerup = [];
-
-const pulseSpeed = 0.02; // Speed of the pulsing animation
-const initialPowerupScale = 0.1; // Initial scale of the powerup
-const pulseAmplitude = 0.05; // Amplitude of the pulsing animation
 
 for (let i = 0; i < 10; i++) {
   const posX = randomRangeNum(8, -8);
   const posZ = randomRangeNum(-5, -10);
 
-  // Create the powerup body (Torus)
+  // Create the powerup body
   const powerupGeometry = new THREE.Group();
 
   // Sphere for the powerup core (inner sphere)
@@ -183,27 +179,22 @@ for (let i = 0; i < 10; i++) {
   powerupGeometry.add(coreSphere);
   powerupGeometry.add(fieldSphere);
 
-  powerupGeometry.scale.set(initialPowerupScale, initialPowerupScale, initialPowerupScale);
+  powerupGeometry.scale.set(0.1, 0.1, 0.1);
   powerupGeometry.position.set(posX, 0, posZ);
   scene.add(powerupGeometry);
 
+  const powerupBody = new CANNON.Body({
+    shape: new CANNON.Sphere(0.2),
+  });
+  powerupBody.position.set(posX, 0, posZ);
+  world.addBody(powerupBody);
+
   const powerupObject = {
     mesh: powerupGeometry,
+    body: powerupBody,
   };
   multiplePowerup.push(powerupObject);
 }
-
-// Animate the pulsing effect
-function animatePowerups() {
-  const time = performance.now() * 0.001; // Get the current time
-  multiplePowerup.forEach((powerup) => {
-    const scaleFactor = 1 + pulseAmplitude * Math.sin(time * pulseSpeed);
-    powerup.mesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-  });
-  requestAnimationFrame(animatePowerups);
-}
-animatePowerups();
-
 
 //!______________________________________________________________ Enemy
 // // Create enemy characters
