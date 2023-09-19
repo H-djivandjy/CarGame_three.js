@@ -157,29 +157,29 @@ for (let i = 0; i < 10; i++) {
   // Create the powerup body
   const powerupGeometry = new THREE.Group();
 
-  // Sphere for the powerup core (inner sphere)
-  const coreGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+  // Inner torus for the powerup core
+  const coreGeometry = new THREE.TorusGeometry(0.4, 0.2, 16, 32);
   const coreMaterial = new THREE.MeshBasicMaterial({
     color: 0xFFFF00, // Yellow color for the core
     transparent: true,
     opacity: 0.8, // Increase opacity for better visibility
   });
-  const coreSphere = new THREE.Mesh(coreGeometry, coreMaterial);
+  const coreTorus = new THREE.Mesh(coreGeometry, coreMaterial);
 
-  // Sphere for the magnetic field (outer sphere)
-  const fieldGeometry = new THREE.SphereGeometry(1.0, 32, 32);
+  // Outer torus for the magnetic field
+  const fieldGeometry = new THREE.TorusGeometry(1.0, 0.2, 16, 32);
   const fieldMaterial = new THREE.MeshBasicMaterial({
     color: 0x00BFFF, // Light blue color for the field
     transparent: true,
-    opacity: 0.2, // Decrease opacity to create a light membrane effect
+    opacity: 0.2, // Decrease opacity to create a lighter membrane effect
   });
-  const fieldSphere = new THREE.Mesh(fieldGeometry, fieldMaterial);
+  const fieldTorus = new THREE.Mesh(fieldGeometry, fieldMaterial);
 
   // Position and add parts to the powerup
-  coreSphere.position.set(0, 0, 0);
-  fieldSphere.position.set(0, 0, 0);
-  powerupGeometry.add(coreSphere);
-  powerupGeometry.add(fieldSphere);
+  coreTorus.position.set(0, 0, 0);
+  fieldTorus.position.set(0, 0, 0);
+  powerupGeometry.add(coreTorus);
+  powerupGeometry.add(fieldTorus);
 
   powerupGeometry.scale.set(0.2, 0.2, 0.2);
   powerupGeometry.position.set(posX, 0, posZ);
