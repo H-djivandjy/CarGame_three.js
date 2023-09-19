@@ -117,22 +117,71 @@ player.rotation.y = Math.PI / 2; // 90 degrees rotation around the vertical axis
 
 scene.add(player);
 
-//!---------------
+//!--------------- Powerup
 
-// Create powerup objects
+// // Create powerup objects
+// const multiplePowerup = [];
+
+// for (let i = 0; i < 10; i++) {
+//   const posX = randomRangeNum(8, -8);
+//   const posZ = randomRangeNum(-5, -10);
+
+//   const powerup = new THREE.Mesh(
+//     new THREE.TorusGeometry(1, 0.4, 16, 50),
+//     new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+//   );
+//   powerup.scale.set(0.1, 0.1, 0.1);
+//   powerup.position.set(posX, 0, posZ);
+//   scene.add(powerup);
+
+//   const powerupBody = new CANNON.Body({
+//     shape: new CANNON.Sphere(0.2),
+//   });
+//   powerupBody.position.set(posX, 0, posZ);
+//   world.addBody(powerupBody);
+
+//   const powerupObject = {
+//     mesh: powerup,
+//     body: powerupBody,
+//   };
+//   multiplePowerup.push(powerupObject);
+// }
+
+// Create powerup objects with magnetic field appearance
 const multiplePowerup = [];
 
 for (let i = 0; i < 10; i++) {
   const posX = randomRangeNum(8, -8);
   const posZ = randomRangeNum(-5, -10);
 
-  const powerup = new THREE.Mesh(
-    new THREE.TorusGeometry(1, 0.4, 16, 50),
-    new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
-  );
-  powerup.scale.set(0.1, 0.1, 0.1);
-  powerup.position.set(posX, 0, posZ);
-  scene.add(powerup);
+  // Create the powerup body
+  const powerupGeometry = new THREE.Group();
+
+  // Sphere for the powerup core (inner sphere)
+  const coreGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+  const coreMaterial = new THREE.MeshBasicMaterial({
+    color: 0xFFFF00, // Yellow color for the core
+  });
+  const coreSphere = new THREE.Mesh(coreGeometry, coreMaterial);
+
+  // Sphere for the magnetic field (outer sphere)
+  const fieldGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+  const fieldMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00BFFF, // Light blue color for the field
+    transparent: true,
+    opacity: 0.6, // Adjust opacity to your liking
+  });
+  const fieldSphere = new THREE.Mesh(fieldGeometry, fieldMaterial);
+
+  // Position and add parts to the powerup
+  coreSphere.position.set(0, 0, 0);
+  fieldSphere.position.set(0, 0, 0);
+  powerupGeometry.add(coreSphere);
+  powerupGeometry.add(fieldSphere);
+
+  powerupGeometry.scale.set(0.1, 0.1, 0.1);
+  powerupGeometry.position.set(posX, 0, posZ);
+  scene.add(powerupGeometry);
 
   const powerupBody = new CANNON.Body({
     shape: new CANNON.Sphere(0.2),
@@ -141,11 +190,12 @@ for (let i = 0; i < 10; i++) {
   world.addBody(powerupBody);
 
   const powerupObject = {
-    mesh: powerup,
+    mesh: powerupGeometry,
     body: powerupBody,
   };
   multiplePowerup.push(powerupObject);
 }
+
 //!______________________________________________________________ Enemy
 // // Create enemy characters
 // const allEnemies = [];
