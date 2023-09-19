@@ -147,32 +147,48 @@ scene.add(player);
 //   multiplePowerup.push(powerupObject);
 // }
 
-// Create powerup objects with a glowing and pulsing magnetic field
+// Create powerup objects with a magnetic field appearance and a pulsing effect
 const multiplePowerup = [];
 
 const pulseSpeed = 0.02; // Speed of the pulsing animation
 const initialPowerupScale = 0.1; // Initial scale of the powerup
+const pulseAmplitude = 0.05; // Amplitude of the pulsing animation
 
 for (let i = 0; i < 10; i++) {
   const posX = randomRangeNum(8, -8);
   const posZ = randomRangeNum(-5, -10);
 
   // Create the powerup body (Torus)
-  const powerupGeometry = new THREE.TorusGeometry(1, 0.4, 16, 50);
-  const powerupMaterial = new THREE.MeshStandardMaterial({
-    emissive: 0xFF0000, // Red emissive color
-    emissiveIntensity: 0.5, // Adjust intensity as needed
-    metalness: 0.8,
-  });
-  const powerup = new THREE.Mesh(powerupGeometry, powerupMaterial);
+  const powerupGeometry = new THREE.Group();
 
-  // Set the initial scale and position
-  powerup.scale.set(initialPowerupScale, initialPowerupScale, initialPowerupScale);
-  powerup.position.set(posX, 0, posZ);
-  scene.add(powerup);
+  // Sphere for the powerup core (inner sphere)
+  const coreGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+  const coreMaterial = new THREE.MeshBasicMaterial({
+    color: 0xFFFF00, // Yellow color for the core
+  });
+  const coreSphere = new THREE.Mesh(coreGeometry, coreMaterial);
+
+  // Sphere for the magnetic field (outer sphere)
+  const fieldGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+  const fieldMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00BFFF, // Light blue color for the field
+    transparent: true,
+    opacity: 0.6, // Adjust opacity to your liking
+  });
+  const fieldSphere = new THREE.Mesh(fieldGeometry, fieldMaterial);
+
+  // Position and add parts to the powerup
+  coreSphere.position.set(0, 0, 0);
+  fieldSphere.position.set(0, 0, 0);
+  powerupGeometry.add(coreSphere);
+  powerupGeometry.add(fieldSphere);
+
+  powerupGeometry.scale.set(initialPowerupScale, initialPowerupScale, initialPowerupScale);
+  powerupGeometry.position.set(posX, 0, posZ);
+  scene.add(powerupGeometry);
 
   const powerupObject = {
-    mesh: powerup,
+    mesh: powerupGeometry,
   };
   multiplePowerup.push(powerupObject);
 }
@@ -181,11 +197,12 @@ for (let i = 0; i < 10; i++) {
 function animatePowerups() {
   const time = performance.now() * 0.001; // Get the current time
   multiplePowerup.forEach((powerup) => {
-    powerup.mesh.material.emissiveIntensity = 0.5 + 0.5 * Math.sin(time * pulseSpeed);
+    const scaleFactor = 1 + pulseAmplitude * Math.sin(time * pulseSpeed);
+    powerup.mesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
   });
   requestAnimationFrame(animatePowerups);
 }
-// animatePowerups();
+animatePowerups();
 
 
 //!______________________________________________________________ Enemy
